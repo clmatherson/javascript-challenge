@@ -20,6 +20,10 @@ function buildTable(datatbl) {
 });
 }
 
+function refreshpg () {
+    location.reload ();
+}
+
 // Render initional table
 buildTable(tableData);
 
@@ -37,7 +41,7 @@ function infoEntry() {
     var inputElementcountry = d3.select("#countryplace").property("value");
     var inputElementshape = d3.select("#shapeobject").property("value");
 
-    // If statement for Date Inputs 
+// If statement for Date Inputs 
     if(inputElementdate !=="") {
         var filteredUFOdate = tableData.filter(ufodate => ufodate.datetime === inputElementdate)
         if (filteredUFOdate.length !== 0) {d3.select('#date', 'date').text("Enter a Date").style('color', 'white')}
@@ -47,7 +51,7 @@ function infoEntry() {
             var filteredUFOdate = tableData
             d3.select('#date').text("Enter a Date").style('color', 'white')}
     
-    // If statement for City Inputs
+// If statement for City Inputs
     if(inputElementcity !=="") {
         var filteredUFOcity = filteredUFOdate.filter(ufocity => ufocity.city === inputElementcity)
         if (filteredUFOcity.length !== 0) {d3.select('#city').text("Enter a City").style('color', 'white')}
@@ -57,7 +61,7 @@ function infoEntry() {
             var filteredUFOcity = filteredUFOdate
             d3.select('#city').text("Enter a City").style('color', 'white')}
 
-    // If statement for State Input
+// If statement for State Input
     if(inputElementstate !=="") {
         var filteredUFOstate = filteredUFOcity.filter(ufostate => ufostate.state === inputElementstate)
         if (filteredUFOstate.length !== 0) {d3.select('#state').text("Enter a State").style('color', 'white')}
@@ -67,7 +71,7 @@ function infoEntry() {
             var filteredUFOstate = filteredUFOcity
             d3.select('#state').text("Enter a State").style('color', 'white')}            
 
-    // If statement for Country Input
+// If statement for Country Input
     if(inputElementcountry !=="") {
         var filteredUFOcountry = filteredUFOstate.filter(ufocountry => ufocountry.country === inputElementcountry)
         if (filteredUFOcountry.length !== 0) {d3.select('#country').text("Enter a Country").style('color', 'white')}
@@ -77,7 +81,7 @@ function infoEntry() {
             var filteredUFOcountry = filteredUFOstate
             d3.select('#country').text("Enter a Country").style('color', 'white')}            
 
-    // If statement for Shape Input
+// If statement for Shape Input
     if(inputElementshape !=="") {
         var filteredUFOshape = filteredUFOcountry.filter(ufoshape => ufoshape.shape === inputElementshape)
         if (filteredUFOshape.length !== 0) {d3.select('#shape').text("Enter a Shape").style('color', 'white')}
@@ -94,4 +98,4 @@ var tablebtn = d3.select("#filter-btn");
 var clearfilter = d3.select("#clear-filter");
 
 tablebtn.on("click", infoEntry);
-clearfilter.on("click")
+clearfilter.on("click", refreshpg);
