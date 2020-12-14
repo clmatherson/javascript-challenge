@@ -1,6 +1,17 @@
 // from data.js
 var tableData = data;
 
+// Transform Text
+tableData.forEach(function (td, i) {
+    tableData[i].city = td.city
+        .split(' ')
+        .map(w => w[0].toUpperCase() + w.substr(1).toLowerCase())
+        .join(' ');
+    tableData[i].state = td.state.toUpperCase();
+    tableData[i].country = td.country.toUpperCase();
+    tableData[i].shape = td.shape.charAt(0).toUpperCase() + td.shape.slice(1);
+});
+
 // Use d3 to select table body 
 var tbody = d3.select("tbody");
 
@@ -36,12 +47,25 @@ function infoEntry() {
     
     // Assign inputs to variables 
     var inputElementdate = d3.select("#datetime").property("value");
-    var inputElementcity = d3.select("#cityplace").property("value");
-    var inputElementstate = d3.select("#stateplace").property("value");
-    var inputElementcountry = d3.select("#countryplace").property("value");
-    var inputElementshape = d3.select("#shapeobject").property("value");
+    
+    try {
+        var inputElementcity = d3.select("#cityplace").property("value")
+            .split(' ')
+            .map(w => w[0].toUpperCase() + w.substr(1).toLowerCase())
+            .join(' ');
+    } catch {
+        var inputElementcity = d3.select("#cityplace").property("value")
+            .charAt(0).toUpperCase() 
+            + d3.select("#cityplace").property("value")
+            .slice(1).toLowerCase()
+    };
 
-// If statement for Date Inputs 
+    var inputElementstate = d3.select("#stateplace").property("value").toUpperCase();
+    var inputElementcountry = d3.select("#countryplace").property("value").toUpperCase();
+    var inputElementshape = d3.select("#shapeobject").property("value").charAt(0).toUpperCase()
+                            + d3.select("#shapeobject").property("value").slice(1).toLowerCase();
+
+// If statement for Date Inputs
     if(inputElementdate !=="") {
         var filteredUFOdate = tableData.filter(ufodate => ufodate.datetime === inputElementdate)
         if (filteredUFOdate.length !== 0) {d3.select('#date', 'date').text("Enter a Date").style('color', 'white')}
@@ -97,5 +121,10 @@ function infoEntry() {
 var tablebtn = d3.select("#filter-btn");
 var clearfilter = d3.select("#clear-filter");
 
-tablebtn.on("click", infoEntry);
+function runEnter() {
+    d3.event.preventDefault();
+    infoEntry();
+}
+
+tablebtn.on("click", runEnter);
 clearfilter.on("click", refreshpg);

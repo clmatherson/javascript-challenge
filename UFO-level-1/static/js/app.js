@@ -1,6 +1,17 @@
 // from data.js
 var tableData = data;
 
+tableData.forEach(function (td, i) {
+    tableData[i].city = td.city
+        .split(' ')
+        .map(w => w[0].toUpperCase() + w.substr(1).toLowerCase())
+        .join(' ');
+
+    tableData[i].state = td.state.toUpperCase();
+    tableData[i].country = td.country.toUpperCase();
+    tableData[i].shape = td.shape.charAt(0).toUpperCase() + td.shape.slice(1);
+});
+
 // Use d3 to select table body 
 var tbody = d3.select("tbody");
 
@@ -46,13 +57,14 @@ function infoEntry() {
     buildTable(filteredUFOdate)
 }
 
-
 var tablebtn = d3.select("#filter-btn");
-var tablebod = d3.select('body');
+var form = d3.select('#form');
 
-function stopit() {
-    d3.event.preventDefault;
+function runEnter() {
+    d3.event.preventDefault();
+    infoEntry();
 }
 
-tablebtn.on("click", infoEntry);
-tablebtn.on("input", stopit);
+// tablebtn.on("click", infoEntry);
+tablebtn.on("click", runEnter);
+form.on('click', runEnter);
